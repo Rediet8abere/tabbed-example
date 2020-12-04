@@ -11,10 +11,10 @@ export default function LablesAndStars({text, value}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}> {text} </Text>
-          <Text style={styles.bar}>
-              {stars}
-          </Text>
+        <Text style={styles.label}> {text} </Text>
+            <Text style={styles.bar}>
+                {stars}
+            </Text>
     </View>
     )
 }
@@ -27,5 +27,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'flex-start',
     justifyContent: 'space-between'
+  },
+  scrollView: {
+    backgroundColor: 'pink',
+    marginHorizontal: 20,
   }
 });

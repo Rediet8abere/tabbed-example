@@ -4,9 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from 'react-native-vector-icons';
-import Cats from './components/Cats';
-import Dogs from './components/Dogs';
+import Pets from './components/Pets';
 import OnePet from './components/OnePet'
+import { dogs, cats } from './breeds';
 
 
 
@@ -32,7 +32,7 @@ const Stack = createStackNavigator();
 function StackScreen() {
   return (
     <Stack.Navigator
-        initialRouteName="Pets"
+        initialRouteName="Screen1"
         screenOptions={{
           headerStyle: {
             backgroundColor: 'tomato',
@@ -44,8 +44,7 @@ function StackScreen() {
         }}
       >
       <Stack.Screen name="Screen1" component={PetsWorldScreen} />
-      <Stack.Screen name="Dogs" component={Dogs} />
-      <Stack.Screen name="Cats" component={Cats} />
+      <Stack.Screen name="Pets" component={Pets} />
       <Stack.Screen name="OnePet" component={OnePet} />
     </Stack.Navigator>
   );
@@ -60,17 +59,18 @@ function PetsWorldScreen({navigation}) {
       <Text>Pets World:)</Text>
       <TouchableOpacity
        style={styles.buttonContainer}
-       onPress={() => navigation.navigate('Dogs')}
+       onPress={() => navigation.navigate('Pets', dogs)}
      >
-       <Text style={styles.buttonText}>Go to Dogs</Text>
+       <Text style={styles.buttonText}>Go to Dogs </Text>
      </TouchableOpacity>
 
      <TouchableOpacity
       style={styles.buttonContainer}
-      onPress={() => navigation.navigate('Cats')}
+      onPress={() => navigation.navigate('Pets', cats)}
     >
-      <Text style={styles.buttonText}>Go to Cats</Text>
+      <Text style={styles.buttonText}>Go to Cats </Text>
     </TouchableOpacity>
+
     </View>
   );
 

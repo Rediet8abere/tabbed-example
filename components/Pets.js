@@ -1,16 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { dogs } from './breeds';
 
 
-function Dogs({navigation}) {
-
+function Pets({navigation, route}) {
+  const {dogs} = route.params
   return (
     <View style={styles.container}>
-    <Text style = {styles.text}> Dogs List </Text>
+    <Text style = {styles.text}>  All Pets </Text>
 
         <FlatList
-          data={dogs}
+          data={route.params}
           renderItem= {({index, item}) => {
             return (
               <TouchableOpacity
@@ -55,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Dogs
+export default Pets

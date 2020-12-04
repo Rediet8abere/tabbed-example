@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
-import Item from './Item';
-import { dogs } from './breeds';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import LablesAndStars from './LablesAndStars';
+
 
 function OnePet({navigation, route}) {
   const {breed} = route.params
@@ -11,14 +11,17 @@ function OnePet({navigation, route}) {
     if (key === "breed") return false
     return true
   }).map((key) => {
-    return <Text> {key} : {route.params[key]} </Text>
+    return <LablesAndStars text={key} value={route.params[key]}/>
   })
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>  One Pet  {breed}</Text>
-      {features}
-    </View>
+
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <Text style={styles.text}>  Pet  {breed}</Text>
+        {features}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -33,6 +36,9 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 24,
     fontWeight: 'bold'
+  },
+  scrollView: {
+    marginHorizontal: 20,
   }
 });
 
