@@ -22,7 +22,7 @@ function HomeScreen() {
   );
 }
 
-function SearchScreen() {
+function SearchScreen({navigation}) {
   const [search, setSearch] = useState('')
 
   return (
@@ -71,7 +71,28 @@ function StackScreen() {
         }}
       >
       <Stack.Screen name="Screen1" component={PetsWorldScreen} />
+      <Stack.Screen name="Search" component={PetsWorldScreen} />
       <Stack.Screen name="Pets" component={Pets} />
+      <Stack.Screen name="OnePet" component={OnePet} />
+    </Stack.Navigator>
+  );
+}
+
+function StackSearchScreen() {
+  return (
+    <Stack.Navigator
+        initialRouteName="Search"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: 'tomato',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      >
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen name="OnePet" component={OnePet} />
     </Stack.Navigator>
   );
@@ -135,7 +156,7 @@ export default function App() {
       }}
     >
     <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Search" component={SearchScreen} />
+    <Tab.Screen name="Search" component={StackSearchScreen} />
     <Tab.Screen name="Pets" component={StackScreen} />
 
 
