@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import {  ImageBackground, StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,23 +7,50 @@ import { Ionicons } from 'react-native-vector-icons';
 import Pets from './components/Pets';
 import OnePet from './components/OnePet'
 import { dogs, cats } from './breeds';
+import { Searchbar } from 'react-native-paper';
 
 
+const image = { uri: "https://stmedia.stimg.co/ows_154117507482497.jpg?auto=compress&crop=faces&dpr=2&w=1094&fit=clip&h=471" };
 
 function HomeScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
+    <ImageBackground source={image} style={styles.image}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={styles.text}>Welcome to Pets Home!</Text>
+      </View>
+    </ImageBackground>
   );
 }
 
-function SettingsScreen() {
+function SearchScreen() {
+  const [search, setSearch] = useState('')
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>
-        Settings!
-      </Text>
+
+        <Searchbar
+         placeholder="Search"
+         onChangeText={(text) => setSearch(text)}
+         value={search}
+       />
+
+        <FlatList
+          data={dogs.filter(dog => dog.breed.toLowerCase().includes(search.toLowerCase()))}
+          renderItem= {({index, item}) => {
+            return (
+              <TouchableOpacity
+                 key = {item.breed}
+                 style={styles.buttonContainer}
+                 onPress={() => {
+                         navigation.navigate('OnePet', item)
+                       }} >
+
+                 <Text style={styles.buttonText}> {item.breed} </Text>
+              </TouchableOpacity>
+            )
+          }}
+          keyExtractor={dogs => dogs.breed}
+          />
     </View>
   );
 }
@@ -55,23 +82,25 @@ function StackScreen() {
 function PetsWorldScreen({navigation}) {
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Pets World:)</Text>
-      <TouchableOpacity
-       style={styles.buttonContainer}
-       onPress={() => navigation.navigate('Pets', dogs)}
-     >
-       <Text style={styles.buttonText}>Go to Dogs </Text>
-     </TouchableOpacity>
+    <ImageBackground source={image} style={styles.image}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text>Pets World:)</Text>
+          <TouchableOpacity
+           style={styles.buttonContainer}
+           onPress={() => navigation.navigate('Pets', dogs)}
+         >
+           <Text style={styles.buttonText}>Go to Dogs </Text>
+         </TouchableOpacity>
 
-     <TouchableOpacity
-      style={styles.buttonContainer}
-      onPress={() => navigation.navigate('Pets', cats)}
-    >
-      <Text style={styles.buttonText}>Go to Cats </Text>
-    </TouchableOpacity>
+         <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => navigation.navigate('Pets', cats)}
+        >
+          <Text style={styles.buttonText}>Go to Cats </Text>
+        </TouchableOpacity>
 
-    </View>
+        </View>
+    </ImageBackground>
   );
 
 }
@@ -90,10 +119,10 @@ export default function App() {
             iconName = focused
               ? 'ios-information-circle'
               : 'ios-information-circle-outline';
-          } else if (route.name === 'Settings') {
-            iconName = focused ? 'ios-list-box' : 'ios-list';
+          } else if (route.name === 'Search') {
+            iconName = focused ? 'ios-search' : 'ios-search';
           } else if (route.name === 'Pets') {
-            iconName = focused ? 'ios-happy-outline' : 'ios-happy';
+            iconName = focused ? 'ios-happy' : 'ios-happy';
           }
 
           // You can return any component that you like here!
@@ -106,7 +135,7 @@ export default function App() {
       }}
     >
     <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Settings" component={SettingsScreen} />
+    <Tab.Screen name="Search" component={SearchScreen} />
     <Tab.Screen name="Pets" component={StackScreen} />
 
 
@@ -139,7 +168,17 @@ const styles = StyleSheet.create({
  title: {
     fontSize: 32,
   },
+  text: {
+    fontSize: 20,
+    backgroundColor: '#fff',
+    padding: 10,
+  },
   keyValue: {
     padding: 20,
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
   }
 });
