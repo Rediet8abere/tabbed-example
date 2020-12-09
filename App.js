@@ -10,7 +10,25 @@ import { dogs, cats } from './breeds';
 import { Searchbar } from 'react-native-paper';
 
 
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import reducers from './reducers'
+
+import { loadState, saveState } from './helpers'
+
+import NewTodo from './components/todo-new'
+import TodoList from './components/todo-list'
+
+
 const image = { uri: "https://stmedia.stimg.co/ows_154117507482497.jpg?auto=compress&crop=faces&dpr=2&w=1094&fit=clip&h=471" };
+
+
+const persistedState = loadState();
+const store = createStore(reducers, persistedState);
+store.subscribe(() => {
+  saveState(store.getState());
+})
+
 
 function HomeScreen() {
   return (
@@ -19,6 +37,20 @@ function HomeScreen() {
         <Text style={styles.text}>Welcome to Pets Home!</Text>
       </View>
     </ImageBackground>
+  );
+}
+
+
+function CreateScreen() {
+  return (
+      <ImageBackground source={image} style={styles.image}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text>Your Pet List</Text>
+          <NewTodo />
+          <TodoList />
+        </View>
+      </ImageBackground>
+
   );
 }
 
@@ -74,6 +106,7 @@ function StackScreen() {
       <Stack.Screen name="Search" component={PetsWorldScreen} />
       <Stack.Screen name="Pets" component={Pets} />
       <Stack.Screen name="OnePet" component={OnePet} />
+      <Stack.Screen name="NewTodo" component={NewTodo} />
     </Stack.Navigator>
   );
 }
@@ -130,6 +163,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
+    <Provider store={store}>
     <NavigationContainer>
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -163,6 +197,7 @@ export default function App() {
 
     </Tab.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }
 
